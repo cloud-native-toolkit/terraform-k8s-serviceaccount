@@ -7,5 +7,5 @@ if [[ -n "${KUBECONFIG_IKS}" ]]; then
     export KUBECONFIG="${KUBECONFIG_IKS}"
 fi
 
-kubectl delete serviceaccount -n ${NAMESPACE} ${SERVICE_ACCOUNT_NAME}
+kubectl delete serviceaccount -n "${NAMESPACE}" "${SERVICE_ACCOUNT_NAME}"
 exit 0
