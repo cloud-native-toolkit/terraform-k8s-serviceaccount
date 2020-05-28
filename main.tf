@@ -30,29 +30,20 @@ resource "kubernetes_namespace" "create" {
   }
 }
 
-resource "null_resource" "delete_serviceaccount" {
+resource "null_resource" "create_service_account" {
   depends_on = [kubernetes_namespace.create]
 
   provisioner "local-exec" {
-    command = "kubectl delete serviceaccount -n ${var.namespace} ${var.service_account_name} --wait=true 1> /dev/null 2> /dev/null || exit 0"
+    command = "kubectl create serviceaccount -n ${var.namespace} ${var.service_account_name} || exit 0"
 
-    environment={
+    environment = {
       KUBECONFIG = var.cluster_config_file_path
     }
   }
 }
 
-resource "kubernetes_service_account" "create" {
-  depends_on = [null_resource.delete_serviceaccount]
-
-  metadata {
-    name      = var.service_account_name
-    namespace = var.namespace
-  }
-}
-
 resource "null_resource" "add_ssc_openshift" {
-  depends_on = [kubernetes_service_account.create]
+  depends_on = [null_resource.create_service_account]
   count      = var.cluster_type != "kubernetes" ? 1 : 0
 
   provisioner "local-exec" {
