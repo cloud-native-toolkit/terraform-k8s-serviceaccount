@@ -30,10 +30,7 @@ variable "create_namespace" {
 }
 
 variable "annotations" {
-  type        = list(object({
-    name  = string
-    value = string
-  }))
+  type        = object({})
   description = "Annotations that should be added to the service account"
-  default     = []
+  default     = {}
 }
