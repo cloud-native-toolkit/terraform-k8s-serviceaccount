@@ -28,3 +28,12 @@ variable "create_namespace" {
   description = "Flag indicating that the namespace should be created"
   default     = false
 }
+
+variable "annotations" {
+  type        = list(object({
+    name  = string
+    value = string
+  }))
+  description = "Annotations that should be added to the service account"
+  default     = []
+}

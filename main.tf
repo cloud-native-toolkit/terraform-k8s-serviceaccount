@@ -48,6 +48,14 @@ resource "kubernetes_service_account" "create" {
   metadata {
     name      = var.service_account_name
     namespace = var.namespace
+
+    dynamic "annotations" {
+      for_each = var.annotations
+      content {
+        name  = annotations.value["name"]
+        value = annotations.value["value"]
+      }
+    }
   }
 }
 
