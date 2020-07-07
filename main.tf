@@ -48,5 +48,9 @@ resource "null_resource" "add_ssc_openshift" {
 
   provisioner "local-exec" {
     command = "${path.module}/scripts/add-sccs-to-user.sh ${var.namespace} ${var.service_account_name} ${jsonencode(var.sscs)}"
+
+    environment = {
+      KUBECONFIG = var.cluster_config_file_path
+    }
   }
 }
